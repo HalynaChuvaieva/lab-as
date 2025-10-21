@@ -7,6 +7,7 @@ using namespace std;
 #include "gauss_jordan.h"  
 #include "lu_inverse.h"
 #include "strassen.h"
+#include "linear_regression.h"
 
 int main()
 {
@@ -25,6 +26,7 @@ int main()
         cout << "4. Show matrixes\n";
         cout << "5. DEMO: Find inverse matrix with Gauss-Jordan\n";
         cout << "6. DEMO: Find inverse matrix with LU decomposition\n";
+        cout << "7. Building a linear regression from known data and labels\n";
         cout << "0. Exit\n";
         cout << "Your choice: ";
         cin >> choice;
@@ -127,6 +129,11 @@ int main()
                 }
                 break;
             }
+        case 7:
+        {
+                //add here
+            break;
+        }
 
         case 0:
             cout << "Exit\n";
