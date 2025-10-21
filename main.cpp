@@ -5,6 +5,7 @@ using namespace std;
 
 #include "matrix.h"
 #include "gauss_jordan.h"  
+#include "lu_inverse.h"
 #include "strassen.h"
 
 int main()
@@ -23,6 +24,7 @@ int main()
         cout << "3. Multiply matrixes with Strassen's algorithm\n";
         cout << "4. Show matrixes\n";
         cout << "5. DEMO: Find inverse matrix with Gauss-Jordan\n";
+        cout << "6. DEMO: Find inverse matrix with LU decomposition\n";
         cout << "0. Exit\n";
         cout << "Your choice: ";
         cin >> choice;
@@ -96,6 +98,36 @@ int main()
                 }
                 break;
             }
+        case 6:
+            {
+                std::cout << "\n--- DEMONSTRATION OF LU INVERSE METHOD ---\n";
+                try {
+                    int n = 3;
+                    double **A = createMatrix(n);
+                    A[0][0] = 2; A[0][1] = -1; A[0][2] = 0;
+                    A[1][0] = -1; A[1][1] = 2; A[1][2] = -1;
+                    A[2][0] = 0; A[2][1] = -1; A[2][2] = 2;
+            
+                    printMatrix(A, n, "A");
+            
+                    auto start = std::chrono::high_resolution_clock::now();
+                    double **A_inv = inverseLU(A, n);
+                    auto end = std::chrono::high_resolution_clock::now();
+                    std::chrono::duration<double> duration = end - start;
+            
+                    printMatrix(A_inv, n, "A_inv (via LU)");
+                    std::cout << "\nTime taken: " << duration.count() << " seconds" << std::endl;
+            
+                    deleteMatrix(A, n);
+                    deleteMatrix(A_inv, n);
+                }
+                catch (const std::exception &e)
+                {
+                    std::cerr << "Error during LU test: " << e.what() << std::endl;
+                }
+                break;
+            }
+
         case 0:
             cout << "Exit\n";
             break;
