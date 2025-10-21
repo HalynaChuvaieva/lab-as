@@ -6,6 +6,7 @@
 #include "gauss_jordan.h"
 #include "base_operations.h"
 #include "strassen.h"
+#include "lu_inverse.h"
 
 // Допоміжна функція для порівняння чисел з плаваючою комою.
 bool areAlmostEqual(double a, double b)
@@ -234,6 +235,81 @@ void run_all_tests()
             std::cout << " FAILED\n";
             all_tests_passed = false;
         }
+    }
+
+    //Test #3: LU inverse 3x3 
+    test_count++;
+    std::cout << "Running Test #" << test_count << ": LU inverse 3x3...";
+    {
+        bool current_test_passed = true;
+        int n = 3;
+        double **A = createMatrix(n);
+        A[0][0] = 2;  A[0][1] = -1; A[0][2] = 0;
+        A[1][0] = -1; A[1][1] = 2;  A[1][2] = -1;
+        A[2][0] = 0;  A[2][1] = -1; A[2][2] = 2;
+
+        double **expected = createMatrix(n);
+        expected[0][0] = 0.75; expected[0][1] = 0.5;  expected[0][2] = 0.25;
+        expected[1][0] = 0.5;  expected[1][1] = 1.0;  expected[1][2] = 0.5;
+        expected[2][0] = 0.25; expected[2][1] = 0.5;  expected[2][2] = 0.75;
+
+        double **A_inv = nullptr;
+        try
+        {
+            A_inv = inverseLU(A, n);
+            if (!compareMatrices(A_inv, expected, n))
+                current_test_passed = false;
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << "\nError: " << e.what();
+            current_test_passed = false;
+        }
+
+        deleteMatrix(A, n);
+        deleteMatrix(expected, n);
+        if (A_inv)
+            deleteMatrix(A_inv, n);
+
+        if (current_test_passed)
+        {
+            std::cout << " PASSED\n";
+            passed_count++;
+        }
+        else
+        {
+            std::cout << " FAILED\n";
+            all_tests_passed = false;
+        }
+    }
+
+    // --- Test #7: LU inverse of singular matrix ---
+    test_count++;
+    std::cout << "Running Test #" << test_count << ": LU inverse singular matrix...";
+    {
+        bool current_test_passed = false;
+        int n = 2;
+        double **A = createMatrix(n);
+        A[0][0] = 1; A[0][1] = 1;
+        A[1][0] = 1; A[1][1] = 1;
+
+        try
+        {
+            double **A_inv = inverseLU(A, n);
+            deleteMatrix(A_inv, n);
+            std::cout << " FAILED (exception not thrown)\n";
+        }
+        catch (const std::exception &)
+        {
+            std::cout << " PASSED\n";
+            passed_count++;
+            current_test_passed = true;
+        }
+
+        deleteMatrix(A, n);
+
+        if (!current_test_passed)
+            all_tests_passed = false;
     }
 
     // --- Фінальний результат ---
