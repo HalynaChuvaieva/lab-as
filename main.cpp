@@ -95,7 +95,7 @@ int main()
                     cout << "\n----------------------------------\n";
 
                     auto start = chrono::high_resolution_clock::now();
-                    Matrix A_inv = inverseMatrix(A); // Викликаємо твою функцію
+                    Matrix A_inv = inverseMatrix(A); // Викликаємо функцію
                     auto end = chrono::high_resolution_clock::now();
                     chrono::duration<double> duration = end - start;
 
@@ -107,7 +107,38 @@ int main()
                     cerr << "Error during Gauss-Jordan test: " << e.what() << endl;
                 }
                 break;
-            }      
+            }  
+            
+            case 6:
+            {
+                std::cout << "\n--- DEMONSTRATION OF LU INVERSE METHOD ---\n";
+                try {
+                    int n = 3;
+                    double **A = createMatrix(n);
+                    A[0][0] = 2; A[0][1] = -1; A[0][2] = 0;
+                    A[1][0] = -1; A[1][1] = 2; A[1][2] = -1;
+                    A[2][0] = 0; A[2][1] = -1; A[2][2] = 2;
+            
+                    printMatrix(A, n, "A");
+            
+                    auto start = std::chrono::high_resolution_clock::now();
+                    double **A_inv = inverseLU(A, n);
+                    auto end = std::chrono::high_resolution_clock::now();
+                    std::chrono::duration<double> duration = end - start;
+            
+                    printMatrix(A_inv, n, "A_inv (via LU)");
+                    std::cout << "\nTime taken: " << duration.count() << " seconds" << std::endl;
+            
+                    deleteMatrix(A, n);
+                    deleteMatrix(A_inv, n);
+                }
+                catch (const std::exception &e)
+                {
+                    std::cerr << "Error during LU test: " << e.what() << std::endl;
+                }
+                break;
+            }
+
         case 0:
             cout << "Exit\n";
             break;
