@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
-#include <chrono>  // Для вимірювання часу
+#include <chrono>
+//#include <vector>
+// Для вимірювання часу
 using namespace std;
 
 #include "matrix.h"
@@ -131,7 +133,8 @@ int main()
             }
         case 7:
         {
-                //add here
+            linear_regression();
+
             break;
         }
 
