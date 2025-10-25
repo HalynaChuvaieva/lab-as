@@ -13,6 +13,7 @@ private:
     double** data_;
 
 public:
+
     // Конструктор: створює матрицю розміром rows x cols
     // Автоматично виділяє пам'ять і заповнює її нулями.
     Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
@@ -25,6 +26,38 @@ public:
         for (int i = 0; i < rows_; ++i) {
             data_[i] = new double[cols_](); 
         }
+    }
+
+    Matrix(const Matrix& other) : rows_(other.rows_), cols_(other.cols_) {
+        data_ = new double* [rows_];
+        for (int i = 0; i < rows_; ++i) {
+            data_[i] = new double[cols_];
+            for (int j = 0; j < cols_; ++j)
+                data_[i][j] = other.data_[i][j];
+        }
+    }
+
+    // ✅ Оператор присвоєння (deep copy)
+    Matrix& operator=(const Matrix& other) {
+        if (this == &other)
+            return *this;
+
+        // звільняємо стару пам’ять
+        for (int i = 0; i < rows_; ++i)
+            delete[] data_[i];
+        delete[] data_;
+
+        rows_ = other.rows_;
+        cols_ = other.cols_;
+
+        data_ = new double* [rows_];
+        for (int i = 0; i < rows_; ++i) {
+            data_[i] = new double[cols_];
+            for (int j = 0; j < cols_; ++j)
+                data_[i][j] = other.data_[i][j];
+        }
+
+        return *this;
     }
 
     // Деструктор: автоматично звільняє всю виділену пам'ять,
@@ -46,8 +79,10 @@ public:
         return cols_;
     }
 
-    // Перевантаження оператора () для зручного доступу до елементів.
-    // Наприклад, matrix(i, j) замість matrix.data_[i][j]. Це безпечніше.
+    double** Matrix::getData() const {
+        return data_;  // 
+    }
+
     double& operator()(int r, int c) {
         if (r < 0 || r >= rows_ || c < 0 || c >= cols_) {
             throw std::out_of_range("Matrix subscript out of bounds.");

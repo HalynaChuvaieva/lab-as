@@ -47,8 +47,10 @@ double **inverseLU(double **A, int n)
     double **L = createMatrix(n);
     double **U = createMatrix(n);
 
+
     luDecompose(A, L, U, n);
 
+   
     double **inv = createMatrix(n);
 
     for (int col = 0; col < n; col++)
@@ -87,8 +89,12 @@ double **inverseLU(double **A, int n)
         delete[] x;
     }
 
+  
+
     deleteMatrix(L, n);
     deleteMatrix(U, n);
+
+  
 
     return inv;
 }
