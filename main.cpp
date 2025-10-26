@@ -6,6 +6,7 @@ using namespace std;
 #include "matrix.h"
 #include "gauss_jordan.h"  
 #include "strassen.h"
+#include "linear_regression.h"
 
 int main()
 {
@@ -23,6 +24,8 @@ int main()
         cout << "3. Multiply matrixes with Strassen's algorithm\n";
         cout << "4. Show matrixes\n";
         cout << "5. DEMO: Find inverse matrix with Gauss-Jordan\n";
+        cout << "6. DEMO: LU\n";
+        cout << "7. Linear regression\n";
         cout << "0. Exit\n";
         cout << "Your choice: ";
         cin >> choice;
@@ -136,6 +139,11 @@ int main()
                 {
                     std::cerr << "Error during LU test: " << e.what() << std::endl;
                 }
+                break;
+            }
+            case 7:
+            {
+                linear_regression();             
                 break;
             }
 
