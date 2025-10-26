@@ -1,0 +1,14 @@
+# Ігнорування службових файлів Visual Studio
+.vs/
+*.suo
+*.user
+*.VC.db
+*.wsuo
+*.ipch
+
+# Додаткові поширені файли Visual Studio
+Debug/
+Release/
+*.obj
+*.exe
+*.pdb
